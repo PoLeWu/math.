@@ -1,32 +1,83 @@
-# Prerequisites
-*.d
+#include <iostream>
+#include <string>
+#include <string.h>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+using namespace std;
 
-# Precompiled Headers
-*.gch
-*.pch
+int fun1(string s,int len)//字串轉數字
+{
+    int sum=0;
+    int count=1;
+    for(int i=len-1;i>=0;i--)
+    {
+        sum+=count*(s[i]-'0');
+        count*=10;
+    }
+    return sum;
+}
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+int fun2(int n)//階
+{
+    int sum=1;
+    for(int i=2;i<=n;i++)
+    {
+        sum*=i;
+    }
+    return sum;
+}
 
-# Fortran module files
-*.mod
-*.smod
+int main()
+{
+    //輸入
+    string Denominator;
+    cout<<"Please enter the denominator:"<<endl;
+    cin>>Denominator;
+    int len1=strlen(Denominator.c_str());
+    string Numerator;
+    cout<<"Please enter the numerator:"<<endl;
+    cin>>Numerator;
+    int len2=strlen(Numerator.c_str());
+    int ans=0;
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+    //分母
+    string sum1="";
+    int count1=0;
+    int denominator=1;
+    for(int i=0;i<len1;i++)
+    {
+        if(Denominator[i]!='!')
+        {
+            sum1[count1]=Denominator[i];
+            count1++;
+        }
+        else
+        {
+            denominator*=fun2(fun1(sum1,count1));
+            count1=0;
+            sum1="";
+        }
+    }
 
-# Executables
-*.exe
-*.out
-*.app
+    //分子
+    string sum2="";
+    int count2=0;
+    int numerator=1;
+    for(int i=0;i<len2;i++)
+    {
+        if(Numerator[i]!='!')
+        {
+            sum2[count2]=Numerator[i];
+            count2++;
+        }
+        else
+        {
+            numerator*=fun2(fun1(sum2,count2));
+            count2=0;
+            sum2="";
+        }
+    }
+    
+    //輸出
+    ans=numerator/denominator;
+    cout<<"Ans:"<<ans<<endl;
+}
